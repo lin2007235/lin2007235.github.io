@@ -658,14 +658,25 @@
                 }
                 
                 // 加载搜索引擎
-                if (settings.engines) {
-                    renderEngines(settings.engines);
-                }
-                if (settings.currentEngine) {
-                    updateEngineSelect(settings.engines, settings.currentEngine);
-                }
+                const engines = settings.engines || defaultEngines;
+                const currentEngine = settings.currentEngine || 'google';
+                
+                renderEngines(engines);
+                updateEngineSelect(engines, currentEngine);
+                
+                // 更新设置面板中的选中状态
+                document.querySelectorAll('input[name="engine"]').forEach(radio => {
+                    radio.checked = radio.value === currentEngine;
+                    if (radio.checked) {
+                        radio.parentElement.classList.add('active');
+                    } else {
+                        radio.parentElement.classList.remove('active');
+                    }
+                });
             } else {
                 renderIcons(defaultIcons);
+                renderEngines(defaultEngines);
+                updateEngineSelect(defaultEngines, 'google');
             }
         }
 
@@ -846,7 +857,20 @@
         document.getElementById('engineSelect').addEventListener('change', function() {
             const settings = getSettings();
             settings.currentEngine = this.value;
+            if (!settings.engines) {
+                settings.engines = { ...defaultEngines };
+            }
             localStorage.setItem('jiuyehuo-settings', JSON.stringify(settings));
+            
+            // 同步更新设置面板中的选中状态
+            document.querySelectorAll('input[name="engine"]').forEach(radio => {
+                radio.checked = radio.value === this.value;
+                if (radio.checked) {
+                    radio.parentElement.classList.add('active');
+                } else {
+                    radio.parentElement.classList.remove('active');
+                }
+            });
         });
 
         function handleSearch() {
