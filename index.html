@@ -550,9 +550,14 @@
         <div class="search-box">
             <input type="text" class="search-input" id="searchInput" placeholder="搜索或输入网址...">
             <select class="search-select" id="engineSelect">
+                <option value="baidu" selected>百度</option>
                 <option value="google">Google</option>
-                <option value="baidu">百度</option>
                 <option value="bing">Bing</option>
+                <option value="sougou">搜狗</option>
+                <option value="zhihu">知乎</option>
+                <option value="weibo">微博</option>
+                <option value="bilibili">B站</option>
+                <option value="taobao">淘宝</option>
             </select>
             <button class="search-btn" onclick="handleSearch()">→</button>
         </div>
@@ -583,16 +588,36 @@
             <div class="setting-label">🔍 搜索引擎</div>
             <div class="engine-list" id="engineList">
                 <label class="engine-item active">
-                    <input type="radio" name="engine" value="google" checked>
-                    <span>Google</span>
+                    <input type="radio" name="engine" value="baidu" checked>
+                    <span>百度</span>
                 </label>
                 <label class="engine-item">
-                    <input type="radio" name="engine" value="baidu">
-                    <span>百度</span>
+                    <input type="radio" name="engine" value="google">
+                    <span>Google</span>
                 </label>
                 <label class="engine-item">
                     <input type="radio" name="engine" value="bing">
                     <span>Bing</span>
+                </label>
+                <label class="engine-item">
+                    <input type="radio" name="engine" value="sougou">
+                    <span>搜狗</span>
+                </label>
+                <label class="engine-item">
+                    <input type="radio" name="engine" value="zhihu">
+                    <span>知乎</span>
+                </label>
+                <label class="engine-item">
+                    <input type="radio" name="engine" value="weibo">
+                    <span>微博</span>
+                </label>
+                <label class="engine-item">
+                    <input type="radio" name="engine" value="bilibili">
+                    <span>B站</span>
+                </label>
+                <label class="engine-item">
+                    <input type="radio" name="engine" value="taobao">
+                    <span>淘宝</span>
                 </label>
             </div>
             <div class="custom-engine">
@@ -625,9 +650,14 @@
         ];
 
         const defaultEngines = {
-            google: { name: 'Google', url: 'https://www.google.com/search?q=%s' },
             baidu: { name: '百度', url: 'https://www.baidu.com/s?wd=%s' },
-            bing: { name: 'Bing', url: 'https://www.bing.com/search?q=%s' }
+            google: { name: 'Google', url: 'https://www.google.com/search?q=%s' },
+            bing: { name: 'Bing', url: 'https://www.bing.com/search?q=%s' },
+            sougou: { name: '搜狗', url: 'https://www.sogou.com/web?query=%s' },
+            zhihu: { name: '知乎', url: 'https://www.zhihu.com/search?type=content&q=%s' },
+            weibo: { name: '微博', url: 'https://s.weibo.com/weibo?q=%s' },
+            bilibili: { name: 'B站', url: 'https://search.bilibili.com/all?keyword=%s' },
+            taobao: { name: '淘宝', url: 'https://s.taobao.com/search?q=%s' }
         };
 
         const wallpapers = {
@@ -676,7 +706,7 @@
             } else {
                 renderIcons(defaultIcons);
                 renderEngines(defaultEngines);
-                updateEngineSelect(defaultEngines, 'google');
+                updateEngineSelect(defaultEngines, 'baidu');
             }
         }
 
@@ -888,7 +918,7 @@
             // 使用选择的搜索引擎
             const settings = getSettings();
             const engines = settings.engines || defaultEngines;
-            const currentKey = settings.currentEngine || 'google';
+            const currentKey = settings.currentEngine || 'baidu';
             const engine = engines[currentKey];
             
             if (engine) {
@@ -900,7 +930,7 @@
         // 获取设置
         function getSettings() {
             const saved = localStorage.getItem('jiuyehuo-settings');
-            return saved ? JSON.parse(saved) : { icons: [...defaultIcons], engines: { ...defaultEngines }, currentEngine: 'google' };
+            return saved ? JSON.parse(saved) : { icons: [...defaultIcons], engines: { ...defaultEngines }, currentEngine: 'baidu' };
         }
 
         // 保存设置
